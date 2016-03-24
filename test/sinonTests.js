@@ -28,4 +28,15 @@ describe('sinon tests', function() {
             spy.called.should.be.true;
         });
     });
+
+    it('should call the callback and log to the console', function() {
+        function onDropClass() {
+            console.log('onDropClass was called');
+        };
+        var spy = sinon.spy(onDropClass);
+
+        student.dropClass(1, spy);
+
+        spy.called.should.be.true;
+    });
 });
