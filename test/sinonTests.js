@@ -91,4 +91,14 @@ describe('sinon tests', function() {
         });
     });
 
+    describe('student with mocks', function() {
+        it('mocks schedule ', function() {
+            var mockObj = sinon.mock(schedule);
+            var expectation = mockObj.expects('classIsFull').once();
+
+            student.addClass(schedule);
+            expectation.verify();
+        });
+    });
+
 });
