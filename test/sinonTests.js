@@ -9,13 +9,29 @@ var
 chai.should()
 
 describe('sinon tests', function() {
-    var student;
+    var
+        student,
+        schedule
+    ;
 
     beforeEach(function() {
         student = {
             dropClass: function (classId, callback) {
                 // Do some stuff
-                callback();
+
+                // If the method exists
+                if (!!callback.dropClass) {
+                    callback.dropClass();
+                }
+                else {
+                    callback();
+                }
+            }
+        }
+
+        schedule = {
+            dropClass: function() {
+                console.log('class dropped');
             }
         }
     });
@@ -38,5 +54,12 @@ describe('sinon tests', function() {
         student.dropClass(1, spy);
 
         spy.called.should.be.true;
+    });
+
+    it('should call the callback even if it\'s a method of an object', function() {
+        // Sinon will go in, grap the method, wrap it in a spy and replace the method with this wraped spy
+        sinon.spy(schedule, 'dropClass');
+        student.dropClass(1, schedule);
+        schedule.dropClass.called.should.be.true;
     });
 });
