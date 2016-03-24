@@ -21,4 +21,4 @@ gulp.task('watch-mocha', function() {
 });
 
 // It tells gulp if we call 'gulp' in our command line with no parameters this task will be executed
-gulp.task('default', ['watch-mocha'])
+gulp.task('default', ['watch-mocha']);
