@@ -26,12 +26,23 @@ describe('sinon tests', function() {
                 else {
                     callback();
                 }
+            },
+            addClass: function(schedule) {
+                if (!schedule.classIsFull()) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         }
 
         schedule = {
             dropClass: function() {
                 console.log('class dropped');
+            },
+            classIsFull: function() {
+                return true;
             }
         }
     });
@@ -43,23 +54,41 @@ describe('sinon tests', function() {
             student.dropClass(1, spy);
             spy.called.should.be.true;
         });
+
+        it('should call the callback and log to the console', function() {
+            function onDropClass() {
+                console.log('onDropClass was called');
+            };
+            var spy = sinon.spy(onDropClass);
+
+            student.dropClass(1, spy);
+
+            spy.called.should.be.true;
+        });
+
+        it('should call the callback even if it\'s a method of an object', function() {
+            // Sinon will go in, grap the method, wrap it in a spy and replace the method with this wraped spy
+            sinon.spy(schedule, 'dropClass');
+            student.dropClass(1, schedule);
+            schedule.dropClass.called.should.be.true;
+        });
     });
 
-    it('should call the callback and log to the console', function() {
-        function onDropClass() {
-            console.log('onDropClass was called');
-        };
-        var spy = sinon.spy(onDropClass);
+    describe('student with stubs', function() {
+        it('should call a stubbed method', function() {
+            // We pass the whole object as param when using stubs so it will replace every obj's method with a stub function
+            var stub = sinon.stub(schedule);
+            student.dropClass(1, stub);
+            stub.dropClass.called.should.be.true;
+        });
 
-        student.dropClass(1, spy);
+        it('should return true when the class is not full', function() {
+            var stub = sinon.stub(schedule);
+            stub.classIsFull.returns(false);
 
-        spy.called.should.be.true;
+            var returnVal = student.addClass(stub);
+            returnVal.should.be.true;
+        });
     });
 
-    it('should call the callback even if it\'s a method of an object', function() {
-        // Sinon will go in, grap the method, wrap it in a spy and replace the method with this wraped spy
-        sinon.spy(schedule, 'dropClass');
-        student.dropClass(1, schedule);
-        schedule.dropClass.called.should.be.true;
-    });
 });
