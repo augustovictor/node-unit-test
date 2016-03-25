@@ -9,5 +9,29 @@ var Student = require("../Student")
 ;
 
 describe("Student", function () {
- 
+    var
+        studentName = 'Victor Augusto',
+        studentGrade = 5;
+    ;
+
+    it('should save the info on the student and create an id when created', function() {
+        var student = Student.create(studentName, studentGrade);
+
+        should.exist(student.name);
+        student.name.should.equals(studentName);
+
+        should.exist(student.grade);
+        student.grade.should.equals(studentGrade);
+
+        should.exist(student.id);
+    });
+
+    it('should increase the student\'s grade by 1 when advanceGrade is called', function() {
+        var student = Student.create(studentName, studentGrade);
+
+        student.advanceGrade();
+
+        student.grade.should.equal(studentGrade+1);
+    });
+
 });
