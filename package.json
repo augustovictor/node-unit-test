@@ -14,7 +14,8 @@
     "gulp": "^3.9.1",
     "gulp-mocha": "^2.2.0",
     "gulp-util": "^3.0.7",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "mocha": "^2.4.5"
