@@ -3,10 +3,10 @@
 
 var Promise = require('bluebird');
 var chai = require('chai');
-// var chaiAsPromised = require('chai-as-promised');
+var chaiAsPromised = require('chai-as-promised');
 var should = chai.should();
 
-// chai.use(chaiAsPromised);
+chai.use(chaiAsPromised);
 
 var student = {name: 'John Doe', id: 3};
 
@@ -30,5 +30,9 @@ describe('getStudent', function() {
 
   it('fulfills the promise', function() {
     return dataAccess.getStudent(3);
+  });
+
+  it('fulfills the promise with correct student', function() {
+    return dataAccess.getStudent(3).should.eventually.equal(student);
   });
 });
